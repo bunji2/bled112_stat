@@ -42,7 +42,11 @@ b4:99:4c:3c:5e:80 RSSI:-80 Name:Unknown
 d0:c9:58:e6:15:50 RSSI:-79 Name:Unknown
 Ctrl-C!
 
-●属性タイプの検索：Primary Service の検索
+●属性タイプの検索
+
+以下、TI の SensorTag での検索例を示す。
+
+・Primary Service の検索
 C:\work\bled112_stat\src>stat com4 78:a5:04:19:6d:db 0x2800
 #Connected to 78:a5:04:19:6d:db
 handle(dec),handle(hex),type,value
@@ -60,7 +64,7 @@ handle(dec),handle(hex),type,value
 105, 0x0069, 0x2800, Service_UUID=0xf000ccc004514000b000000000000000
 116, 0x0074, 0x2800, Service_UUID=0xf000ffc004514000b000000000000000
 
-●属性タイプの検索：characteristic宣言の検索
+・characteristic宣言の検索
 C:\work>stat com4 78:a5:04:19:6d:db 0x2803
 #Connected to 78:a5:04:19:6d:db
 handle(dec),handle(hex),type,value
@@ -103,7 +107,7 @@ handle(dec),handle(hex),type,value
 117, 0x0075, 0x2803, Properties=0x1c(Write Without Response,|Write|Notify), Char_value_handle=0x0076, Char_UUID=0xf000ffc104514000b000000000000000
 121, 0x0079, 0x2803, Properties=0x1c(Write Without Response,|Write|Notify), Char_value_handle=0x007a, Char_UUID=0xf000ffc204514000b000000000000000
 
-●属性タイプの検索：CUDDの検索
+・CUDDの検索
 C:\work>stat com4 78:a5:04:19:6d:db 0x2901
 #Connected to 78:a5:04:19:6d:db
 handle(dec),handle(hex),type,value
@@ -131,7 +135,7 @@ handle(dec),handle(hex),type,value
 120, 0x0078, 0x2901, Value="Img Identifyeqeq"
 124, 0x007c, 0x2901, Value="Img Blockifyeqeq"
 
-●属性タイプの検索：CCCDの検索
+・CCCDの検索
 C:\work>stat com4 78:a5:04:19:6d:db 0x2902
 #Connected to 78:a5:04:19:6d:db
 handle(dec),handle(hex),type,value
