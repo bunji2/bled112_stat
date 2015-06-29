@@ -1,0 +1,183 @@
+# stat.exe の使い方
+
+作成者：Bunji2
+更新日時：2015/06/29
+
+## 概要
+
+BLED112 を使って BLE デバイスが持つ GATT サービスや GATT 特性を調べるツール。
+
+## コマンドラインヘルプ
+
+```
+C:\work>stat
+stat <list|COMx <info|scan|address 0xXXXX <0xAAAA 0xBBBB>>>
+```
+
+* stat list
+
+    ⇒BLEDデバイスのリスト表示
+
+* stat COMx info
+
+    ⇒BLEDデバイスの情報表示
+
+* stat COMx scan
+
+    ⇒スキャン
+
+* stat COMx address 0xXXXX
+
+    ⇒属性タイプ 0xXXXX のリスト表示
+
+* stat COMx address 0xXXXX 0xAAAA 0xBBBB
+
+    ⇒ハンドルが 0xAAAA～0xBBBB の範囲の属性タイプ 0xXXXX のリスト表示
+
+
+## BLEDデバイスのリスト表示
+
+```
+C:\work\td>stat list
+Bluegiga Bluetooth Low Energy (COM3)
+```
+
+## BLEDデバイスの情報表示
+
+```
+C:\work\td>stat com4 info
+#ble_rsp_system_get_info
+major=1, minor=2, patch=2, build=100, ll_version=3, protocol_version=1, hw=3
+```
+
+## スキャン（Ctrl-C で終了）
+
+```
+C:\work>stat com4 scan
+78:a5:04:19:6d:db RSSI:-69 Name:Unknown
+b4:99:4c:3c:5e:80 RSSI:-80 Name:Unknown
+d0:c9:58:e6:15:50 RSSI:-79 Name:Unknown
+Ctrl-C!
+```
+
+## 属性タイプの検索
+
+以下、TI の SensorTag での検索例を示す。
+
+* Primary Service の検索
+
+```
+C:\work\bled112_stat\src>stat com4 78:a5:04:19:6d:db 0x2800
+#Connected to 78:a5:04:19:6d:db
+handle(dec),handle(hex),type,value
+1, 0x0001, 0x2800, Service_UUID=0x1800
+12, 0x000c, 0x2800, Service_UUID=0x1801
+16, 0x0010, 0x2800, Service_UUID=0x180a
+35, 0x0023, 0x2800, Service_UUID=0xf000aa0004514000b000000000000000
+43, 0x002b, 0x2800, Service_UUID=0xf000aa1004514000b000000000000000
+54, 0x0036, 0x2800, Service_UUID=0xf000aa2004514000b000000000000000
+62, 0x003e, 0x2800, Service_UUID=0xf000aa3004514000b000000000000000
+73, 0x0049, 0x2800, Service_UUID=0xf000aa4004514000b000000000000000
+85, 0x0055, 0x2800, Service_UUID=0xf000aa5004514000b000000000000000
+93, 0x005d, 0x2800, Service_UUID=0xffe0
+98, 0x0062, 0x2800, Service_UUID=0xf000aa6004514000b000000000000000
+105, 0x0069, 0x2800, Service_UUID=0xf000ccc004514000b000000000000000
+116, 0x0074, 0x2800, Service_UUID=0xf000ffc004514000b000000000000000
+```
+
+* characteristic宣言の検索
+
+```
+C:\work>stat com4 78:a5:04:19:6d:db 0x2803
+#Connected to 78:a5:04:19:6d:db
+handle(dec),handle(hex),type,value
+2, 0x0002, 0x2803, Properties=0x02(Read), Char_value_handle=0x0003, Char_UUID=0x2a00
+4, 0x0004, 0x2803, Properties=0x02(Read), Char_value_handle=0x0005, Char_UUID=0x2a01
+6, 0x0006, 0x2803, Properties=0x0a(Read|Write), Char_value_handle=0x0007, Char_UUID=0x2a02
+8, 0x0008, 0x2803, Properties=0x08(Write), Char_value_handle=0x0009, Char_UUID=0x2a03
+10, 0x000a, 0x2803, Properties=0x02(Read), Char_value_handle=0x000b, Char_UUID=0x2a04
+13, 0x000d, 0x2803, Properties=0x20(Indicate), Char_value_handle=0x000e, Char_UUID=0x2a05
+17, 0x0011, 0x2803, Properties=0x02(Read), Char_value_handle=0x0012, Char_UUID=0x2a23
+19, 0x0013, 0x2803, Properties=0x02(Read), Char_value_handle=0x0014, Char_UUID=0x2a24
+21, 0x0015, 0x2803, Properties=0x02(Read), Char_value_handle=0x0016, Char_UUID=0x2a25
+23, 0x0017, 0x2803, Properties=0x02(Read), Char_value_handle=0x0018, Char_UUID=0x2a26
+25, 0x0019, 0x2803, Properties=0x02(Read), Char_value_handle=0x001a, Char_UUID=0x2a27
+27, 0x001b, 0x2803, Properties=0x02(Read), Char_value_handle=0x001c, Char_UUID=0x2a28
+29, 0x001d, 0x2803, Properties=0x02(Read), Char_value_handle=0x001e, Char_UUID=0x2a29
+31, 0x001f, 0x2803, Properties=0x02(Read), Char_value_handle=0x0020, Char_UUID=0x2a2a
+33, 0x0021, 0x2803, Properties=0x02(Read), Char_value_handle=0x0022, Char_UUID=0x2a50
+36, 0x0024, 0x2803, Properties=0x12(Read|Notify), Char_value_handle=0x0025, Char_UUID=0xf000aa0104514000b000000000000000
+40, 0x0028, 0x2803, Properties=0x0a(Read|Write), Char_value_handle=0x0029, Char_UUID=0xf000aa0204514000b000000000000000
+44, 0x002c, 0x2803, Properties=0x12(Read|Notify), Char_value_handle=0x002d, Char_UUID=0xf000aa1104514000b000000000000000
+48, 0x0030, 0x2803, Properties=0x0a(Read|Write), Char_value_handle=0x0031, Char_UUID=0xf000aa1204514000b000000000000000
+51, 0x0033, 0x2803, Properties=0x0a(Read|Write), Char_value_handle=0x0034, Char_UUID=0xf000aa1304514000b000000000000000
+55, 0x0037, 0x2803, Properties=0x12(Read|Notify), Char_value_handle=0x0038, Char_UUID=0xf000aa2104514000b000000000000000
+59, 0x003b, 0x2803, Properties=0x0a(Read|Write), Char_value_handle=0x003c, Char_UUID=0xf000aa2204514000b000000000000000
+63, 0x003f, 0x2803, Properties=0x12(Read|Notify), Char_value_handle=0x0040, Char_UUID=0xf000aa3104514000b000000000000000
+67, 0x0043, 0x2803, Properties=0x0a(Read|Write), Char_value_handle=0x0044, Char_UUID=0xf000aa3204514000b000000000000000
+70, 0x0046, 0x2803, Properties=0x0a(Read|Write), Char_value_handle=0x0047, Char_UUID=0xf000aa3304514000b000000000000000
+74, 0x004a, 0x2803, Properties=0x12(Read|Notify), Char_value_handle=0x004b, Char_UUID=0xf000aa4104514000b000000000000000
+78, 0x004e, 0x2803, Properties=0x0a(Read|Write), Char_value_handle=0x004f, Char_UUID=0xf000aa4204514000b000000000000000
+81, 0x0051, 0x2803, Properties=0x02(Read), Char_value_handle=0x0052, Char_UUID=0xf000aa4304514000b000000000000000
+86, 0x0056, 0x2803, Properties=0x12(Read|Notify), Char_value_handle=0x0057, Char_UUID=0xf000aa5104514000b000000000000000
+90, 0x005a, 0x2803, Properties=0x0a(Read|Write), Char_value_handle=0x005b, Char_UUID=0xf000aa5204514000b000000000000000
+94, 0x005e, 0x2803, Properties=0x10(Notify), Char_value_handle=0x005f, Char_UUID=0xffe1
+99, 0x0063, 0x2803, Properties=0x02(Read), Char_value_handle=0x0064, Char_UUID=0xf000aa6104514000b000000000000000
+102, 0x0066, 0x2803, Properties=0x0a(Read|Write), Char_value_handle=0x0067, Char_UUID=0xf000aa6204514000b000000000000000
+106, 0x006a, 0x2803, Properties=0x12(Read|Notify), Char_value_handle=0x006b, Char_UUID=0xf000ccc104514000b000000000000000
+110, 0x006e, 0x2803, Properties=0x08(Write), Char_value_handle=0x006f, Char_UUID=0xf000ccc204514000b000000000000000
+113, 0x0071, 0x2803, Properties=0x08(Write), Char_value_handle=0x0072, Char_UUID=0xf000ccc304514000b000000000000000
+117, 0x0075, 0x2803, Properties=0x1c(Write Without Response,|Write|Notify), Char_value_handle=0x0076, Char_UUID=0xf000ffc104514000b000000000000000
+121, 0x0079, 0x2803, Properties=0x1c(Write Without Response,|Write|Notify), Char_value_handle=0x007a, Char_UUID=0xf000ffc204514000b000000000000000
+```
+
+* CUDDの検索
+
+```
+C:\work>stat com4 78:a5:04:19:6d:db 0x2901
+#Connected to 78:a5:04:19:6d:db
+handle(dec),handle(hex),type,value
+39, 0x0027, 0x2901, Value="IR Temp. Data"
+42, 0x002a, 0x2901, Value="IR Temp. Conf."
+47, 0x002f, 0x2901, Value="Accel. Datanf."
+50, 0x0032, 0x2901, Value="Accel. Conf.f."
+53, 0x0035, 0x2901, Value="Acc. Period.f."
+58, 0x003a, 0x2901, Value="Humid. Data.f."
+61, 0x003d, 0x2901, Value="Humid. Conf.f."
+66, 0x0042, 0x2901, Value="Mag. Datanf.f."
+69, 0x0045, 0x2901, Value="Mag. Conf.f.f."
+72, 0x0048, 0x2901, Value="Mag. Period.f."
+77, 0x004d, 0x2901, Value="Barometer Data"
+80, 0x0050, 0x2901, Value="Barometer Conf."
+84, 0x0054, 0x2901, Value="Barometer Cali."
+89, 0x0059, 0x2901, Value="Gyro. DataCali."
+92, 0x005c, 0x2901, Value="Gyro. Conf.ali."
+97, 0x0061, 0x2901, Value="Key Press State"
+101, 0x0065, 0x2901, Value="Test Data State"
+104, 0x0068, 0x2901, Value="Test Configtate"
+109, 0x006d, 0x2901, Value="Conn. Paramsate"
+112, 0x0070, 0x2901, Value="Conn. Params Req"
+115, 0x0073, 0x2901, Value="Disconnect Reqeq"
+120, 0x0078, 0x2901, Value="Img Identifyeqeq"
+124, 0x007c, 0x2901, Value="Img Blockifyeqeq"
+```
+
+* CCCDの検索
+
+```
+C:\work>stat com4 78:a5:04:19:6d:db 0x2902
+#Connected to 78:a5:04:19:6d:db
+handle(dec),handle(hex),type,value
+15, 0x000f, 0x2902, Value=None(0x0000)
+38, 0x0026, 0x2902, Value=None(0x0000)
+46, 0x002e, 0x2902, Value=None(0x0000)
+57, 0x0039, 0x2902, Value=None(0x0000)
+65, 0x0041, 0x2902, Value=None(0x0000)
+76, 0x004c, 0x2902, Value=None(0x0000)
+83, 0x0053, 0x2902, Value=None(0x0000)
+88, 0x0058, 0x2902, Value=None(0x0000)
+96, 0x0060, 0x2902, Value=None(0x0000)
+108, 0x006c, 0x2902, Value=None(0x0000)
+119, 0x0077, 0x2902, Value=None(0x0000)
+123, 0x007b, 0x2902, Value=None(0x0000)
+```
